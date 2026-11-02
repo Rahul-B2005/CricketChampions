@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import protect from '../middleware/auth.js';
+import Team from '../models/Team.js';
+import { crud } from '../controllers/crud.js';
+const c = crud(Team, { populate: ['players', 'playingXI'] });
+const r = Router();
+r.use(protect);
+r.route('/').get(c.list).post(c.create);
+r.route('/:id').put(c.update).delete(c.remove);
+export default r;
